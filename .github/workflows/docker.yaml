@@ -11,6 +11,10 @@ env:
   ALIYUN_NAME_SPACE: "${{ secrets.ALIYUN_NAME_SPACE }}"
   ALIYUN_REGISTRY_USER: "${{ secrets.ALIYUN_REGISTRY_USER }}"
   ALIYUN_REGISTRY_PASSWORD: "${{ secrets.ALIYUN_REGISTRY_PASSWORD }}"
+  HARBOR_REGISTRY: "${{ secrets.HARBOR_REGISTRY }}"
+  HARBOR_NAME_SPACE: "${{ secrets.HARBOR_NAME_SPACE }}"
+  HARBOR_REGISTRY_USER: "${{ secrets.HARBOR_REGISTRY_USER }}"
+  HARBOR_REGISTRY_PASSWORD: "${{ secrets.HARBOR_REGISTRY_PASSWORD }}"
 
 jobs:
 
@@ -57,7 +61,7 @@ jobs:
 
     - name: Build and push image Aliyun
       run: |
-        docker login -u $ALIYUN_REGISTRY_USER -p $ALIYUN_REGISTRY_PASSWORD $ALIYUN_REGISTRY
+        docker login -u $HARBOR_REGISTRY_USER -p $HARBOR_REGISTRY_PASSWORD $HARBOR_REGISTRY
         # 数据预处理,判断镜像是否重名
         declare -A duplicate_images
         declare -A temp_map
@@ -129,16 +133,19 @@ jobs:
         
             name_space_prefix=""
             # 如果镜像名重名
-            if [[ -n "${duplicate_images[$image_name]}" ]]; then
-               #如果命名空间非空，将命名空间加到前缀
-               if [[ -n "${name_space}" ]]; then
-                  name_space_prefix="${name_space}_"
-               fi
-            fi
+            # if [[ -n "${duplicate_images[$image_name]}" ]]; then
+            #    #如果命名空间非空，将命名空间加到前缀
+            #    if [[ -n "${name_space}" ]]; then
+            #       name_space_prefix="${name_space}_"
+            #    fi
+            # fi
+
+            # 将原镜像的namespace添加为前缀
+            name_space_prefix="${name_space}_"
             
             # 将@sha256:等字符删除
             image_name_tag="${image_name_tag%%@*}"
-            new_image="$ALIYUN_REGISTRY/$ALIYUN_NAME_SPACE/$platform_prefix$name_space_prefix$image_name_tag"
+            new_image="$HARBOR_REGISTRY/$HARBOR_NAME_SPACE/$platform_prefix$name_space_prefix$image_name_tag"
             echo "docker tag $image $new_image"
             docker tag $image $new_image
             echo "docker push $new_image"
