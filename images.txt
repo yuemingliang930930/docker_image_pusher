@@ -5,4 +5,4 @@
 #支持指定架构
 #--platform=linux/arm64 xiaoyaliu/alist
 #k8s.gcr.io/kube-state-metrics/kube-state-metrics:v2.0.0
-jenkins/jenkins:2.361.2-lts-jdk11
+jc21/nginx-proxy-manager:latest
