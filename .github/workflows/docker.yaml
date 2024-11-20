@@ -141,7 +141,9 @@ jobs:
             # fi
 
             # 将原镜像的namespace添加为前缀
-            name_space_prefix="${name_space}_"
+            if [[ -n "${name_space}" ]]; then
+              name_space_prefix="${name_space}_"
+            fi
             
             # 将@sha256:等字符删除
             image_name_tag="${image_name_tag%%@*}"
