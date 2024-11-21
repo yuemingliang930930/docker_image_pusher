@@ -5,9 +5,10 @@
 #支持指定架构
 #--platform=linux/arm64 xiaoyaliu/alist
 #k8s.gcr.io/kube-state-metrics/kube-state-metrics:v2.0.0
-gitlab/gitlab-ce:14.7.2-ce.0
-mikolatero/vlmcsd
-xhofe/alist
-wcjiang/linux-command
-vaultwarden/server:1.32.0
-nginx:1.26
+#gitlab/gitlab-ce:14.7.2-ce.0
+#mikolatero/vlmcsd
+#xhofe/alist
+#wcjiang/linux-command
+#vaultwarden/server:1.32.0
+#nginx:1.26
+node:18-alpine3.15
